@@ -1,13 +1,13 @@
-
 import React, { useState, useMemo } from 'react';
 import Controls from './components/Controls';
 import StatsDisplay from './components/StatsDisplay';
 import BatteryPackVisualizer from './components/BatteryPackVisualizer';
-import { CELL_VOLTAGE, CELL_CAPACITY } from './constants';
+import { CELL_SPECS, CellSpec } from './constants';
 
 const App: React.FC = () => {
   const [desiredVoltage, setDesiredVoltage] = useState<number>(48);
   const [desiredCapacity, setDesiredCapacity] = useState<number>(15);
+  const [selectedCell, setSelectedCell] = useState<CellSpec>(CELL_SPECS[0]);
 
   const {
     seriesCount,
@@ -16,16 +16,16 @@ const App: React.FC = () => {
     actualVoltage,
     actualCapacity,
   } = useMemo(() => {
-    const sCount = Math.max(1, Math.round(desiredVoltage / CELL_VOLTAGE));
-    const pCount = Math.max(1, Math.round(desiredCapacity / CELL_CAPACITY));
+    const sCount = Math.max(1, Math.round(desiredVoltage / selectedCell.voltage));
+    const pCount = Math.max(1, Math.round(desiredCapacity / selectedCell.capacity));
     return {
       seriesCount: sCount,
       parallelCount: pCount,
       totalCells: sCount * pCount,
-      actualVoltage: sCount * CELL_VOLTAGE,
-      actualCapacity: pCount * CELL_CAPACITY,
+      actualVoltage: sCount * selectedCell.voltage,
+      actualCapacity: pCount * selectedCell.capacity,
     };
-  }, [desiredVoltage, desiredCapacity]);
+  }, [desiredVoltage, desiredCapacity, selectedCell]);
 
   return (
     <div className="min-h-screen bg-slate-900 text-slate-200 font-sans p-4 sm:p-6 lg:p-8">
@@ -46,6 +46,9 @@ const App: React.FC = () => {
               setVoltage={setDesiredVoltage}
               capacity={desiredCapacity}
               setCapacity={setDesiredCapacity}
+              cellTypes={CELL_SPECS}
+              selectedCell={selectedCell}
+              setSelectedCell={setSelectedCell}
             />
             <StatsDisplay
               seriesCount={seriesCount}

@@ -1,11 +1,14 @@
-
 import React from 'react';
+import { CellSpec } from '../constants';
 
 interface ControlsProps {
   voltage: number;
   setVoltage: (value: number) => void;
   capacity: number;
   setCapacity: (value: number) => void;
+  cellTypes: CellSpec[];
+  selectedCell: CellSpec;
+  setSelectedCell: (cell: CellSpec) => void;
 }
 
 const BoltIcon: React.FC<{ className?: string }> = ({ className }) => (
@@ -21,10 +24,52 @@ const BatteryIcon: React.FC<{ className?: string }> = ({ className }) => (
     </svg>
 );
 
+const CellIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+      <path d="M8 6h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"></path>
+      <path d="M10 6V4h4v2"></path>
+      <path d="M12 10v4"></path>
+      <path d="M10 12h4"></path>
+    </svg>
+);
 
-const Controls: React.FC<ControlsProps> = ({ voltage, setVoltage, capacity, setCapacity }) => {
+const Controls: React.FC<ControlsProps> = ({
+  voltage,
+  setVoltage,
+  capacity,
+  setCapacity,
+  cellTypes,
+  selectedCell,
+  setSelectedCell,
+}) => {
+
+  const handleCellChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const cell = cellTypes.find(c => c.id === e.target.value);
+    if (cell) {
+      setSelectedCell(cell);
+    }
+  };
+
   return (
     <div className="space-y-8 mb-8">
+      <div>
+        <label htmlFor="cellType" className="flex items-center text-lg font-medium text-slate-300 mb-2">
+            <CellIcon className="w-6 h-6 mr-2 text-teal-400" />
+            Cell Type
+        </label>
+        <select
+          id="cellType"
+          value={selectedCell.id}
+          onChange={handleCellChange}
+          className="w-full bg-slate-900/70 border border-slate-600 rounded-md py-2 px-3 focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+        >
+          {cellTypes.map(cell => (
+            <option key={cell.id} value={cell.id}>
+              {cell.name} ({cell.voltage}V)
+            </option>
+          ))}
+        </select>
+      </div>
       <div>
         <label htmlFor="voltage" className="flex items-center text-lg font-medium text-slate-300 mb-2">
             <BoltIcon className="w-6 h-6 mr-2 text-sky-400" />
@@ -34,7 +79,7 @@ const Controls: React.FC<ControlsProps> = ({ voltage, setVoltage, capacity, setC
           <input
             id="voltage"
             type="range"
-            min="3.7"
+            min={selectedCell.voltage}
             max="100"
             step="0.1"
             value={voltage}
@@ -43,7 +88,7 @@ const Controls: React.FC<ControlsProps> = ({ voltage, setVoltage, capacity, setC
           />
           <input
             type="number"
-            min="3.7"
+            min={selectedCell.voltage}
             max="100"
             step="0.1"
             value={voltage.toFixed(1)}
@@ -61,7 +106,7 @@ const Controls: React.FC<ControlsProps> = ({ voltage, setVoltage, capacity, setC
           <input
             id="capacity"
             type="range"
-            min="3"
+            min={selectedCell.capacity}
             max="100"
             step="0.5"
             value={capacity}
@@ -70,7 +115,7 @@ const Controls: React.FC<ControlsProps> = ({ voltage, setVoltage, capacity, setC
           />
           <input
             type="number"
-            min="3"
+            min={selectedCell.capacity}
             max="100"
             step="0.5"
             value={capacity.toFixed(1)}
