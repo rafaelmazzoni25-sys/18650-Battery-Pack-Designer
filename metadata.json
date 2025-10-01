@@ -1,0 +1,5 @@
+{
+  "name": "18650 Battery Pack Designer",
+  "description": "An interactive web application to design and visualize custom 18650 battery pack configurations. Users can input desired voltage and capacity to generate a visual grid layout of the cells, complete with series and parallel wiring connections.",
+  "requestFramePermissions": []
+}
