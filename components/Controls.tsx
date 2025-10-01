@@ -81,7 +81,7 @@ const Controls: React.FC<ControlsProps> = ({
             type="range"
             min={selectedCell.voltage}
             max="100"
-            step="0.1"
+            step={selectedCell.voltage}
             value={voltage}
             onChange={(e) => setVoltage(parseFloat(e.target.value))}
             className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer range-thumb-sky"
@@ -90,7 +90,7 @@ const Controls: React.FC<ControlsProps> = ({
             type="number"
             min={selectedCell.voltage}
             max="100"
-            step="0.1"
+            step={selectedCell.voltage}
             value={voltage.toFixed(1)}
             onChange={(e) => setVoltage(parseFloat(e.target.value))}
             className="w-24 bg-slate-900/70 border border-slate-600 rounded-md text-center py-1.5 focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
@@ -108,7 +108,7 @@ const Controls: React.FC<ControlsProps> = ({
             type="range"
             min={selectedCell.capacity}
             max="100"
-            step="0.5"
+            step={selectedCell.capacity}
             value={capacity}
             onChange={(e) => setCapacity(parseFloat(e.target.value))}
             className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer range-thumb-orange"
@@ -117,7 +117,7 @@ const Controls: React.FC<ControlsProps> = ({
             type="number"
             min={selectedCell.capacity}
             max="100"
-            step="0.5"
+            step={selectedCell.capacity}
             value={capacity.toFixed(1)}
             onChange={(e) => setCapacity(parseFloat(e.target.value))}
             className="w-24 bg-slate-900/70 border border-slate-600 rounded-md text-center py-1.5 focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
