@@ -94,7 +94,7 @@ const BatteryPackVisualizer: React.FC<BatteryPackVisualizerProps> = ({
     
     // Positive Bus Bar
     parallelBusBars.push(
-      <rect key={`pos-bus-${s}`} x={busBarX1} y={rowY - BUS_BAR_OFFSET} width={busBarX2 - busBarX1} height={BUS_BAR_HEIGHT} fill="#38bdf8" rx="3" style={{
+      <rect key={`pos-bus-${s}`} x={busBarX1} y={rowY - BUS_BAR_OFFSET} width={busBarX2 - busBarX1} height={BUS_BAR_HEIGHT} fill="url(#positive-bus-gradient)" rx="3" style={{
         transformOrigin: 'left center',
         animation: `grow-x 0.4s ease-out forwards`,
         animationDelay: `${currentRowDelay}s`
@@ -102,7 +102,7 @@ const BatteryPackVisualizer: React.FC<BatteryPackVisualizerProps> = ({
     );
     // Negative Bus Bar
     parallelBusBars.push(
-      <rect key={`neg-bus-${s}`} x={busBarX1} y={rowY + CELL_HEIGHT + BUS_BAR_OFFSET - BUS_BAR_HEIGHT} width={busBarX2 - busBarX1} height={BUS_BAR_HEIGHT} fill="#fb923c" rx="3" style={{
+      <rect key={`neg-bus-${s}`} x={busBarX1} y={rowY + CELL_HEIGHT + BUS_BAR_OFFSET - BUS_BAR_HEIGHT} width={busBarX2 - busBarX1} height={BUS_BAR_HEIGHT} fill="url(#negative-bus-gradient)" rx="3" style={{
         transformOrigin: 'left center',
         animation: `grow-x 0.4s ease-out forwards`,
         animationDelay: `${currentRowDelay}s`
@@ -227,6 +227,16 @@ const BatteryPackVisualizer: React.FC<BatteryPackVisualizerProps> = ({
               <rect width="6" height="6" fill="#cbd5e1" />
               <line x1="0" y1="0" x2="0" y2="6" stroke="#94a3b8" strokeWidth="1" />
             </pattern>
+            <linearGradient id="positive-bus-gradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#7dd3fc" />
+                <stop offset="50%" stopColor="#38bdf8" />
+                <stop offset="100%" stopColor="#0ea5e9" />
+            </linearGradient>
+            <linearGradient id="negative-bus-gradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#fdba74" />
+                <stop offset="50%" stopColor="#fb923c" />
+                <stop offset="100%" stopColor="#f97316" />
+            </linearGradient>
           </defs>
           {seriesConnectors}
           {mainTerminalsAndWiring}
